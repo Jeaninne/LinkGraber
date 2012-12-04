@@ -1,12 +1,23 @@
 require 'net/http'
+require 'nokogiri'
+require 'open-uri'
 
-class Link_writer 
+class Link_graber
+ attr_accessor :link 
+
+ def initialize(link)
+ @link= Nokogiri::HTML(open(link))
+ end
 
  def write_in_file
   #write array in file
  end
 
- def find_links
+ def parse(page_name)
+  doc = Nokogiri::HTML(open(page_name))
+  #   doc.html.body.a.each do |link|
+  # puts link
+  #end
  end
 
  def find_links(page_name, depth)
@@ -19,3 +30,4 @@ class Link_writer
  end
 
 end
+
