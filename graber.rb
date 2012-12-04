@@ -15,9 +15,9 @@ class Link_graber
 
  def parse(page_name)
   doc = Nokogiri::HTML(open(page_name))
-  #   doc.html.body.a.each do |link|
-  # puts link
-  #end
+  doc.xpath('//a').each do |link|
+  puts link[:href]
+  end
  end
 
  def find_links(page_name, depth)
@@ -31,3 +31,5 @@ class Link_graber
 
 end
 
+x = Link_graber.new('http://kote.dp.ua/')
+p x.parse('http://kote.dp.ua/')
