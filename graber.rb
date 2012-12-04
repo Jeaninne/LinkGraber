@@ -3,10 +3,9 @@ require 'nokogiri'
 require 'open-uri'
 
 class Link_graber
- #attr_accessor :link 
 
- def initialize#(link)
- #@link= Nokogiri::HTML(open(link))
+ def initialize
+  File.open('data.txt', 'w'){}
  end
 
  def write_in_file(string)
@@ -17,12 +16,17 @@ class Link_graber
   links = []
   doc = Nokogiri::HTML(open(page_name))
    doc.xpath('//a').each do |link|
-     links << link[:href] if link[:href].include?('http') 
+   if !((link[:href]=='#') || (link[:href]== nil)) then 
+     if link[:href].include?('http') 
+      then links << link[:href]  
+           end
+     end
   end
   links
  end
 
  def find_links(page_name, depth)
+  File.open('data.txt', 'a'){ |file| file.puts  "#{depth} depht. Links on #{page_name}:" }
   links_array = parse(page_name)
   if depth > 1 then 
    links_array.each {|page| find_links(page, depth-1)
@@ -34,4 +38,4 @@ class Link_graber
 end
 
 x = Link_graber.new
-x.find_links('http://www.kote.dp.ua', 1)
+x.find_links('http://kote.dp.ua/', 2)
